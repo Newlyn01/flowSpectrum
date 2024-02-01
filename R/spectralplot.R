@@ -16,6 +16,8 @@
 #' @param params Specify parameters (in order) to plot. If NULL (default), parameters will be selected based on the cytometer model.
 #' @param guessPop Try to select only the positive spectral signal (200 events).  It is recommend to set normalize to TRUE when using guessPop.
 #' @param unstained flowFrame of the negative data, only needed if guessPop = TRUE
+#' @param vlines Specify a vector of vertical cutoffs to plot on the spectrum. Makes it possible to split the plot per laser (default = NULL)
+#' @param scaled Indicate whether the data is scaled to a range between 0 and 1 or not. Default is False 
 #' @return Images of full spectrum
 #' @author Christopher Hall, Babraham Institute
 #' @seealso \code{\link[flowSpectrum]{spectralplottingtool}}
@@ -39,12 +41,12 @@
 #' 
 #' @export
 
-spectralplot<-function(flowfile, theme='viridis', save=FALSE, bins=512, normalize=FALSE, params=NULL, guessPop=FALSE, unstained=NULL){
+spectralplot<-function(flowfile, theme='aurora', save=FALSE, bins=512, normalize=FALSE, params=NULL, guessPop=FALSE, unstained=NULL, vlines = NULL, scaled = FALSE){
   if((class(flowfile)[1]=="flowSet")==TRUE){
-    fsApply(flowfile,function(x)spectralplottingtool(x,theme,save,bins,normalize,params,guessPop,unstained))
+    fsApply(flowfile,function(x)spectralplottingtool(x,theme,save,bins,normalize,params,guessPop,unstained, vlines, scaled))
   } else if ((class(flowfile)[1]=="ncdfFlowSet")==TRUE){
-    fsApply(flowfile,function(x)spectralplottingtool(x,theme,save,bins,normalize,params,guessPop,unstained))
+    fsApply(flowfile,function(x)spectralplottingtool(x,theme,save,bins,normalize,params,guessPop,unstained, vlines, scaled))
   } else {
-    spectralplottingtool(flowfile,theme,save,bins,normalize,params,guessPop,unstained)
+    spectralplottingtool(flowfile,theme,save,bins,normalize,params,guessPop,unstained, vlines, scaled)
   }
 }
